@@ -1,64 +1,63 @@
 <template>
   <tab-bar class="tab-bar">
-      <tab-bar-item path="/home">
-        <template v-slot:item-img>
-          <img src="~assets/img/tabbar/icon01.png" alt="">
-        </template>
-        <template v-slot:item-active-mg>
-          <img src="~assets/img/tabbar/icon01_active.png" alt="">
-        </template>
-        <template v-slot:item-text>
-          <div class="tab-bar-text">首页</div>
-        </template>
-      </tab-bar-item>
-      <tab-bar-item path="/category">
-        <template v-slot:item-img>
-          <img src="~assets/img/tabbar/icon02.png" alt="">
-        </template>
-        <template v-slot:item-active-mg>
-          <img src="~assets/img/tabbar/icon02_active.png" alt="">
-        </template>
-        <template v-slot:item-text>
-          <div class="tab-bar-text">分类</div>
-        </template>
-      </tab-bar-item>
-      <tab-bar-item path="/cart">
-        <template v-slot:item-img>
-          <img src="~assets/img/tabbar/icon03.png" alt="">
-        </template>
-        <template v-slot:item-active-mg>
-          <img src="~assets/img/tabbar/icon03_active.png" alt="">
-        </template>
-        <template v-slot:item-text>
-          <div class="tab-bar-text">购物车</div>
-        </template>
-      </tab-bar-item>
-      <tab-bar-item path="/profile">
-        <template v-slot:item-img>
-          <img src="~assets/img/tabbar/icon04.png" alt="">
-        </template>
-        <template v-slot:item-active-mg>
-          <img src="~assets/img/tabbar/icon04_active.png" alt="">
-        </template>
-        <template v-slot:item-text>
-          <div class="tab-bar-text">我的</div>
-        </template>
-      </tab-bar-item>
-    </tab-bar> 
+    <tab-bar-item path="/home">
+      <template v-slot:item-img>
+        <img src="~assets/img/tabbar/icon01.png" alt="" />
+      </template>
+      <template v-slot:item-active-mg>
+        <img src="~assets/img/tabbar/icon01_active.png" alt="" />
+      </template>
+      <template v-slot:item-text>
+        <div class="tab-bar-text">首页</div>
+      </template>
+    </tab-bar-item>
+    <tab-bar-item path="/category">
+      <template v-slot:item-img>
+        <img src="~assets/img/tabbar/icon02.png" alt="" />
+      </template>
+      <template v-slot:item-active-mg>
+        <img src="~assets/img/tabbar/icon02_active.png" alt="" />
+      </template>
+      <template v-slot:item-text>
+        <div class="tab-bar-text">分类</div>
+      </template>
+    </tab-bar-item>
+    <tab-bar-item path="/cart">
+      <template v-slot:item-img>
+        <img src="~assets/img/tabbar/icon03.png" alt="" />
+      </template>
+      <template v-slot:item-active-mg>
+        <img src="~assets/img/tabbar/icon03_active.png" alt="" />
+      </template>
+      <template v-slot:item-text>
+        <div class="tab-bar-text">购物车</div>
+      </template>
+    </tab-bar-item>
+    <tab-bar-item path="/profile">
+      <template v-slot:item-img>
+        <img src="~assets/img/tabbar/icon04.png" alt="" />
+      </template>
+      <template v-slot:item-active-mg>
+        <img src="~assets/img/tabbar/icon04_active.png" alt="" />
+      </template>
+      <template v-slot:item-text>
+        <div class="tab-bar-text">我的</div>
+      </template>
+    </tab-bar-item>
+  </tab-bar>
 </template>
 
 <script>
-import TabBar from 'components/common/tabbar/TabBar'
-import TabBarItem from 'components/common/tabbar/TabBarItem'
+import TabBar from "components/common/tabbar/TabBar";
+import TabBarItem from "components/common/tabbar/TabBarItem";
 export default {
-  name:'MainTabBar',
-  components:{
+  name: "MainTabBar",
+  components: {
     TabBar,
-    TabBarItem
+    TabBarItem,
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
