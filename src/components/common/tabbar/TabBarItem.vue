@@ -29,8 +29,6 @@ export default {
   },
   computed:{
     isActive(){
-      // console.log(234,this.path)
-      // console.log(234,this.$route.path)
       return this.$route.path.indexOf(this.path) > -1
     },
     activeStyle(){

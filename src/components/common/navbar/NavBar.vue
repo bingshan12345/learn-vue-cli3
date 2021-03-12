@@ -1,3 +1,4 @@
+
 <template>
   <div class="nav-bar">
     <div class="left">
@@ -13,28 +14,26 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style lang="scss" scoped>
-  .nav-bar{
-    display:flex;
-    line-height:44px;
-    box-shadow:0 1px 1px rgba(100,100,100,0.1);
-    // box-shadow:0 1px 10px 2px #000;
-    .left{
-      width:60px;
-      text-align: center;
-    }
-    .center{
-      flex:1;
-      text-align: center;
-    }
-    .right{
-      width:60px;
-      text-align: center;
-    }
+.nav-bar {
+  display: flex;
+  line-height: 44px;//导航的高度一般都是44px
+  box-shadow: 0 1px 1px rgba(100, 100, 100, 0.1);
+  box-shadow:0 1px 10px 2px rgba(100, 100, 100, 0.1);
+  .left {
+    width: 60px;
+    text-align: center;
   }
+  .center {
+    flex: 1;
+    text-align: center;
+  }
+  .right {
+    width: 60px;
+    text-align: center;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <tab-bar class="tab-bar">
-    <tab-bar-item path="/home">
+    <tab-bar-item path="/home"><!--绑定了path 属性，因为接受的时候设置了类型验证为字符串，所以此处不需要加冒号 -->
       <template v-slot:item-img>
         <img src="~assets/img/tabbar/icon01.png" alt="" />
       </template>
