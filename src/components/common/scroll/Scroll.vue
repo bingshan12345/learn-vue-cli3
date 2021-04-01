@@ -14,9 +14,9 @@ export default {
       type: Number,
       default: 0,
     },
-    pullUpLoad:{
-      type:Boolean,
-      default:false
+    pullUpLoad: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -30,25 +30,35 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, {
         movable: true,
         observeDOM: true,
+        click: true,
         probeType: this.probeType,
-        pullUpLoad:this.pullUpLoad
+        pullUpLoad: this.pullUpLoad,
       });
 
-      this.scroll.on("scroll", (position) => {
-        // console.log(position);
-        this.$emit("scrollPosition",position);
-      });
+      if (this.probeType === 2 || this.probeType === 3) {
+        this.scroll.on("scroll", (position) => {
+          this.$emit("scrollPosition", position);
+        });
+      }
 
-      this.scroll.on("pullingUp",() => {
-        console.log("上拉加载更多");
-        this.$emit("loadMore")
-        
-      })
+      if (this.pullUpLoad) {
+        this.scroll.on("pullingUp", () => {
+          console.log("上拉加载更多");
+          this.$emit("loadMore");
+        });
+      }
     });
   },
   methods: {
-    finishPullUp(){
+    finishPullUp() {
       this.scroll.finishPullUp();
+    },
+    refresh() {
+      console.log("----------");
+      this.scroll.refresh();
+    },
+    getScrollY(){
+      return this.scroll?this.scroll.y:0
     }
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item">
+  <div class="goods-item" @click="itemClick(goodsItem.id)">
     <img :src="goodsItem.show.img" alt="" @load="loadImg"/>
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
@@ -18,10 +18,23 @@ export default {
       },
     },
   },
+  mounted(){
+    
+  },
+
   methods:{
     //图片加载完成后发送事件，在home组件中监听：
     loadImg(){
       this.$bus.$emit("imgLoad")
+    },
+    itemClick(id){
+      console.log(id);
+      this.$router.push({
+        name:"Detail",
+        params:{
+          id:id
+        }
+      })
     }
   }
 };
@@ -36,6 +49,7 @@ export default {
 
 .goods-item img {
   width: 100%;
+
   border-radius: 5px;
   border: 3px solid var(--color-tint);
 }
