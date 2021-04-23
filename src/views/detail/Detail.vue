@@ -85,6 +85,7 @@ export default {
       currentIndex: 0,
       gitTest:11111,
       gitTest2:22222,
+      gitTest3:333,
     };
   },
   created() {
