@@ -83,6 +83,8 @@ export default {
       themeTopYs: [],
       getThemeTopY: null,
       currentIndex: 0,
+      gitTest:11111,
+      gitTest2:22222,
     };
   },
   created() {
