@@ -86,6 +86,8 @@ export default {
       gitTest:11111,
       gitTest2:22222,
       gitTest3:333,
+
+      test:"第三次提交"
     };
   },
   created() {
