@@ -37,7 +37,7 @@ export default new VueRouter({
     name:'Profile',
     component:Profile
     }, {
-      path: 'detail/:id',
+      path: '/detail/:iid',
       name:'Detail',
       component:Detail
     }

@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item" @click="itemClick(goodsItem.id)">
-    <img :src="goodsItem.show.img" alt="" @load="loadImg"/>
+  <div class="goods-item" @click="itemClick">
+    <img :src="showImage" alt="" @load="loadImg" />
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
       <span class="price">{{ goodsItem.price }}</span>
@@ -18,25 +18,25 @@ export default {
       },
     },
   },
-  mounted(){
-    
+  mounted() {},
+
+  computed: {
+    showImage() {
+      console.log();
+      return this.goodsItem.image || this.goodsItem.show.img;
+    },
   },
 
-  methods:{
+  methods: {
     //图片加载完成后发送事件，在home组件中监听：
-    loadImg(){
-      this.$bus.$emit("imgLoad")
+    loadImg() {
+      this.$bus.$emit("imgLoad");
     },
-    itemClick(id){
-      console.log(id);
-      this.$router.push({
-        name:"Detail",
-        params:{
-          id:id
-        }
-      })
-    }
-  }
+    itemClick() {
+      // console.log(id);
+      this.$router.push("/detail/" + this.goodsItem.iid);
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>

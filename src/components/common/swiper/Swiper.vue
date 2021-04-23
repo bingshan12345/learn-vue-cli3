@@ -1,7 +1,7 @@
 <template>
   <div id="hy-swiper">
     <div
-      class="swiper"
+      class="_swiper"
       @touchstart="touchStart"
       @touchmove="touchMove"
       @touchend="touchEnd"
@@ -129,7 +129,8 @@ export default {
      */
     handleDom: function () {
       // 1.获取要操作的元素
-      let swiperEl = document.querySelector(".swiper");
+      let swiperEl = document.querySelector("._swiper");
+
       let slidesEls = swiperEl.getElementsByClassName("slide");
 
       // 2.保存个数
@@ -139,6 +140,7 @@ export default {
       if (this.slideCount > 1) {
         let cloneFirst = slidesEls[0].cloneNode(true);
         let cloneLast = slidesEls[this.slideCount - 1].cloneNode(true);
+        
         swiperEl.insertBefore(cloneLast, slidesEls[0]);
         swiperEl.appendChild(cloneFirst);
         this.totalWidth = swiperEl.offsetWidth;
@@ -234,7 +236,7 @@ export default {
   position: relative;
 }
 
-.swiper {
+._swiper {
   display: flex;
 }
 

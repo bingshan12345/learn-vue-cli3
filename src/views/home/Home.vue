@@ -39,42 +39,10 @@
         ref="tabControl2"
       ></tab-control>
       <goods-list :goods="goods[currentType].list"></goods-list>
-      <!-- <ul>
-        <li>列表1</li>
-        <li>列表2</li>
-        <li>列表3</li>
-        <li>列表4</li>
-        <li>列表5</li>
-        <li>列表6</li>
-        <li>列表7</li>
-        <li>列表8</li>
-        <li>列表9</li>
-        <li>列表10</li>
-        <li>列表11</li>
-        <li>列表12</li>
-        <li>列表13</li>
-        <li>列表14</li>
-        <li>列表15</li>
-        <li>列表16</li>
-        <li>列表17</li>
-        <li>列表18</li>
-        <li>列表19</li>
-        <li>列表20</li>
-      </ul> -->
     </scroll>
-    <back-top @click.native="backTop" v-show="isShow"></back-top>
-    <!-- <ul style="margin-top: 519px">
-      <li>列表1</li>
-      <li>列表2</li>
-      <li>列表3</li>
-      <li>列表4</li>
-      <li>列表5</li>
-      <li>列表6</li>
-      <li>列表7</li>
-      <li>列表8</li>
-      <li>列表9</li>
-      <li>列表10</li>
-    </ul> -->
+    <back-top @backTop="backTop" class="back-top" v-show="isShow">
+      <img src="~assets/img/common/top.png" alt="" />
+    </back-top>
   </div>
 </template>
 
@@ -90,7 +58,7 @@ import RecommendView from "./components/RecommendView";
 import FeatureView from "./components/FeatureView";
 
 import { getHomeMultiData, getHomeGoods } from "network/home.js";
-import debounce from "commonjs/utils";
+import { itemListenerMixin } from "commonjs/mixin";
 export default {
   name: "Home",
   components: {
@@ -103,6 +71,7 @@ export default {
     Scroll,
     BackTop,
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       banner: [],
@@ -127,34 +96,29 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  mounted() {
-    this.$nextTick(() => {
-      let refresh = debounce(this.$refs.scroll.refresh, 200);
-      //监听item中的图片是否加载完成
-      this.$bus.$on("imgLoad", () => {
-        refresh();
-      });
-    });
-  },
+
+  mounted() {},
   methods: {
     getHomeMultiData() {
       getHomeMultiData().then((res) => {
         this.banner = res.data.data.banner.list;
         this.recommends = res.data.data.recommend.list;
-        // this.titles = res.data.data;
       });
     },
 
     getHomeGoods(type) {
       const page = this.goods[type].page + 1;
-      getHomeGoods(type, page).then(() => {
-        // if (res.data.list) {
-        // this.goods[type].list.push(...res.data.list);
-        /* 原接口已不可用，这里是模拟的假数据 */
-        if (type === "pop") {
+      getHomeGoods(type, page).then((res) => {
+        // console.log(res);
+        if (res.data.data.list) {
+          this.goods[type].list.push(...res.data.data.list);
+
+          /* 原接口已不可用，这里是模拟的假数据 */
+          /* if (type === "pop") {
           for (let i = 0; i < 30; i++) {
             this.goods[type].list.push({
-              id:i,
+              id:i+1,
+              iid:i+1,
               price: "￥280.00",
               cfav: "时尚女装",
               show: {
@@ -166,7 +130,8 @@ export default {
         } else if (type === "new") {
           for (let i = 0; i < 30; i++) {
             this.goods[type].list.push({
-              id:1000+i,
+              id:1000+i+1,
+              iid:1000+i+1,
               price: "￥280.00",
               cfav: "时尚女装",
               show: {
@@ -178,7 +143,8 @@ export default {
         } else {
           for (let i = 0; i < 30; i++) {
             this.goods[type].list.push({
-              id:5000+i,
+              id:5000+i+1,
+              iid:5000+i+1,
               price: "￥280.00",
               cfav: "时尚女装",
               show: {
@@ -187,9 +153,8 @@ export default {
               title: "带帽运动服2021新款",
             });
           }
+        } */
         }
-
-        // }
         this.goods[type].page += 1;
         this.$refs.scroll.finishPullUp();
       });
@@ -236,7 +201,12 @@ export default {
     });
   },
   deactivated() {
+    //1.保存Y值：
     this.saveY = this.$refs.scroll.getScrollY();
+
+    //2.取消全局事件的监听：
+    //原因：详情页的图片加载完不需要刷新home页
+    this.$bus.$off("imgLoad", this.imgItemListener);
   },
 };
 </script>
