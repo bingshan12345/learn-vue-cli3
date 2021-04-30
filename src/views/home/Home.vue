@@ -40,7 +40,7 @@
       ></tab-control>
       <goods-list :goods="goods[currentType].list"></goods-list>
     </scroll>
-    <back-top @backTop="backTop" class="back-top" v-show="isShow">
+    <back-top @click.native="backTop" class="back-top" v-show="isShowBackTop">
       <img src="~assets/img/common/top.png" alt="" />
     </back-top>
   </div>
@@ -51,14 +51,13 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backTop/BackTop";
 
 import HomeSwiper from "./components/HomeSwiper";
 import RecommendView from "./components/RecommendView";
 import FeatureView from "./components/FeatureView";
 
 import { getHomeMultiData, getHomeGoods } from "network/home.js";
-import { itemListenerMixin } from "commonjs/mixin";
+import { itemListenerMixin,backTopMixin } from "commonjs/mixin";
 export default {
   name: "Home",
   components: {
@@ -69,9 +68,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin,backTopMixin],
   data() {
     return {
       banner: [],
@@ -83,7 +81,6 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      isShow: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: null,
@@ -176,13 +173,10 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backTop() {
-      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
-    },
 
     scrollPosition(position) {
       //1，判断backTop是否显示：
-      this.isShow = -position.y > 300;
+      this.isShowBackTop = -position.y > 300;
 
       //2,决定tabControl是否吸顶（position:fixed）
       this.isTabFixed = -position.y > this.tabOffsetTop;

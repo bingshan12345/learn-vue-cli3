@@ -11,6 +11,10 @@
       :probe-type="3"
       @scrollPosition="contentScroll"
     >
+    <!-- <div>{{$store.state.cartList.length}}</div> -->
+    <ul>
+      <li v-for="item in $store.state.cartList" :key="item.iid">{{item}}</li>
+    </ul>
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -35,6 +39,10 @@
         ref="recommend"
       ></goods-list>
     </Scroll>
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+    <back-top @click.native="backTop" v-show="isShowBackTop">
+      <img src="~assets/img/common/top.png" alt="" />
+    </back-top>
   </div>
 </template>
 <script>
@@ -45,9 +53,11 @@ import DetailShopInfo from "views/detail/childComponents/DetailShopInfo";
 import DetailGoodsInfo from "views/detail/childComponents/DetailGoodsInfo";
 import DetailParamInfo from "views/detail/childComponents/DetailParamInfo";
 import DetailCommentInfo from "views/detail/childComponents/DetailCommentInfo";
+import DetailBottomBar from "views/detail/childComponents/DetailBottomBar";
 import Scroll from "components/common/scroll/Scroll";
+
 import GoodsList from "components/content/goods/GoodsList";
-import { itemListenerMixin } from "commonjs/mixin";
+import { itemListenerMixin,backTopMixin } from "commonjs/mixin";
 import { debounce } from "commonjs/utils";
 import {
   getDetail,
@@ -69,6 +79,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     GoodsList,
+    DetailBottomBar,
   },
   data() {
     return {
@@ -98,7 +109,7 @@ export default {
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
     }, 100);
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin,backTopMixin],
   mounted() {},
   methods: {
     getDetailData(iid) {
@@ -157,7 +168,23 @@ export default {
         this.currentIndex = 3;
       }
       this.$refs.detailNavBar.currentIndex = this.currentIndex;
+
+
+      //是否显示回到顶部按钮：
+      this.isShowBackTop = positionY > 300;
     },
+
+    addToCart(){
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      // console.log(this.$store);
+      this.$store.commit("addCart",product)
+    }
+    
   },
 
   destroyed() {
@@ -179,7 +206,7 @@ export default {
   background: #fff;
 }
 .detial-content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px);
 }
 
 .detail-param-info,
