@@ -3,18 +3,13 @@
     <detail-nav-bar
       class="detail-nav-bar"
       @titleClick="titleClick"
-      ref="detailNavBar"
-    />
+      ref="detailNavBar"/>
     <Scroll
       class="detial-content"
       ref="scroll"
       :probe-type="3"
       @scrollPosition="contentScroll"
     >
-    <!-- <div>{{$store.state.cartList.length}}</div> -->
-    <ul>
-      <li v-for="item in $store.state.cartList" :key="item.iid">{{item}}</li>
-    </ul>
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -57,8 +52,9 @@ import DetailBottomBar from "views/detail/childComponents/DetailBottomBar";
 import Scroll from "components/common/scroll/Scroll";
 
 import GoodsList from "components/content/goods/GoodsList";
-import { itemListenerMixin,backTopMixin } from "commonjs/mixin";
+import { itemListenerMixin, backTopMixin } from "commonjs/mixin";
 import { debounce } from "commonjs/utils";
+import {mapActions} from "vuex";
 import {
   getDetail,
   Goods,
@@ -109,9 +105,13 @@ export default {
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
     }, 100);
   },
-  mixins: [itemListenerMixin,backTopMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   mounted() {},
   methods: {
+
+    ...mapActions({
+      addCartInActions:"addCart"
+    }),
     getDetailData(iid) {
       getDetail(iid).then((res) => {
         const data = res.data.result;
@@ -150,9 +150,6 @@ export default {
     },
 
     titleClick(index) {
-      console.log(index);
-      console.log(this.$refs);
-      console.log(this.$refs.scroll);
       this.$refs.scroll.scroll.scrollTo(0, -this.themeTopYs[index], 200);
     },
 
@@ -160,31 +157,38 @@ export default {
       const positionY = -position.y;
       if (positionY >= 0 && positionY < this.themeTopYs[1]) {
         this.currentIndex = 0;
-      } else if (positionY >= this.themeTopYs[1] && positionY < this.themeTopYs[2]) {
+      } else if (
+        positionY >= this.themeTopYs[1] &&
+        positionY < this.themeTopYs[2]
+      ) {
         this.currentIndex = 1;
-      } else if (positionY >= this.themeTopYs[2] && positionY < this.themeTopYs[3]) {
+      } else if (
+        positionY >= this.themeTopYs[2] &&
+        positionY < this.themeTopYs[3]
+      ) {
         this.currentIndex = 2;
       } else if (positionY >= this.themeTopYs[3]) {
         this.currentIndex = 3;
       }
       this.$refs.detailNavBar.currentIndex = this.currentIndex;
 
-
       //是否显示回到顶部按钮：
       this.isShowBackTop = positionY > 300;
     },
 
-    addToCart(){
+    addToCart() {
       const product = {};
       product.image = this.topImages[0];
       product.title = this.goods.title;
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
       product.iid = this.iid;
-      // console.log(this.$store);
-      this.$store.commit("addCart",product)
-    }
-    
+      // this.$store.dispatch("addCart", product)
+      this.addCartInActions(product)
+      .then((res) => {
+        this.$toast.show(res,1600)
+      })
+    },
   },
 
   destroyed() {
